@@ -1,0 +1,29 @@
+name: Build and Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Bazelisk
+      run: |
+        sudo npm install -g @bazel/bazelisk
+        bazelisk version
+
+    - name: Build TypeScript Service
+      run: bazelisk build //packages/price:all
+
+    - name: Build Python Service
+      run: bazelisk build //packages/metadata:all
+
+    - name: Run Tests
+      run: bazelisk test //...
