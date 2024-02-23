@@ -1,9 +1,10 @@
 load("@rules_python//python:defs.bzl", "py_binary")
+load("@python_deps//:requirements.bzl", "requirement")
 
 py_binary(
-    name = "metadata_service",
+    name = "app",
     srcs = ["app.py"],
     deps = [
-        "@py_deps//:all",
-    ],
+        requirement("Flask")
+    ]
 )
